@@ -17,13 +17,13 @@ def entry_list(request, page=0):
 			form.save()
 			return HttpResponseRedirect(reverse('chiplog_index'))
 		else:
-			return render_to_response('entry_form.html', {'form': form}, context_instance=RequestContext(request))
+			return render_to_response('chiplog/entry_form.html', {'form': form}, context_instance=RequestContext(request))
 	else:
 		return list_detail.object_list(
 			request,
 			queryset = Entry.objects.all(),
 			template_object_name = 'entry',
-			template_name = 'entry_list.html',
+			template_name = 'chiplog/entry_list.html',
 			paginate_by = 10,
 			page = page,
 			extra_context = { 'form': EntryForm, 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
@@ -35,7 +35,7 @@ def entry_detail(request, object_id):
 		request,
 		object_id = object_id,
 		queryset = Entry.objects.all(),
-		template_name = 'entry_detail.html',
+		template_name = 'chiplog/entry_detail.html',
 		extra_context = { 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
 	)
 
@@ -45,7 +45,7 @@ def entry_delete(request, object_id):
 		request,
 		object_id = object_id,
 		model = Entry,
-		template_name = 'entry_confirm_delete.html',
+		template_name = 'chiplog/entry_confirm_delete.html',
 		post_delete_redirect = reverse('chiplog_index'),
 		extra_context = { 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
 	)
@@ -55,7 +55,7 @@ def entry_create(request):
 	return create_update.create_object(
 		request,
 		model = Entry,
-		template_name = 'entry_form.html',
+		template_name = 'chiplog/entry_form.html',
 		post_save_redirect = reverse('chiplog_index'),
 		extra_context = { 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
 	)
@@ -66,7 +66,7 @@ def entry_update(request, object_id):
 		request,
 		object_id = object_id,
 		model = Entry,
-		template_name = 'entry_form.html',
+		template_name = 'chiplog/entry_form.html',
 		post_save_redirect = reverse('chiplog_index'),
 		extra_context = { 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
 	)
@@ -78,10 +78,10 @@ def search(request):
 		if len(search_term) != 0:
 			entry_list = Entry.objects.filter(body__icontains=search_term)
 			context = { 'entry_list': entry_list, 'search_term':search_term, 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
-			return render_to_response('entry_search.html', context, context_instance=RequestContext(request))
+			return render_to_response('chiplog/entry_search.html', context, context_instance=RequestContext(request))
 		else:
 			message = 'Search term was too vague. Please try again.'
 			context = { 'message':message, 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }
-			return render_to_response('entry_search.html', context, context_instance=RequestContext(request))
+			return render_to_response('chiplog/entry_search.html', context, context_instance=RequestContext(request))
 	else:
-		return render_to_response('entry_search.html', { 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }, context_instance=RequestContext(request))
+		return render_to_response('chiplog/entry_search.html', { 'chiplog_media_url': settings.CHIPLOG_MEDIA_URL }, context_instance=RequestContext(request))
