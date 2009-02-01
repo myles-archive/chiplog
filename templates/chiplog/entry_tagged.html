@@ -1,0 +1,61 @@
+{% extends 'chiplog/base.html' %}
+{% load markup %}
+{% load humanize %}
+{% load i18n %}
+{% load tagging_tags %}
+
+{% block title %}: {% trans "Entries tagged with" %} &lsquo;{{ tag }}&rsquo;{% endblock %}
+{% block class %} class="tagged"{% endblock %}
+
+{% block search %}
+<div id="search">
+	<form action="{% url entry_search %}" method="get" accept-charset="utf-8">
+		<div><label for="q">{% trans "Search" %}</label><input type="text" value="{{ query }}" name="q" id="q" /></div>
+	</form>
+</div><!-- #search -->
+{% endblock %}
+
+{% block header %}
+<div id="add">
+	<a href="{% url chiplog_index %}">{% trans "New Entry" %}</a>
+</div><!-- #add -->
+{% endblock %}
+
+{% block content %}	
+<h1>{% trans "Entries tagged with" %} &lsquo;{{ tag }}&rsquo;</h1>
+{% if message %}<div id="message">{{ message }}</div>{% endif %}
+<div id="entries">
+	{% for entry in entry_list %}
+		{% ifchanged %}<h2>{{ entry.created|naturalday:"l, F j, Y"|title }}</h2>{% endifchanged %}
+		<div class="entry">
+			<div class="meta">
+				<span class="date">
+					<a href="{{ entry.get_absolute_url }}">
+						{{ entry.created|date:"g:i a" }}
+					</a>
+				</span>
+				<span class="edit"> / <a href="{% url chiplog_update entry.id %}">Edit</a></span>
+			</div>
+			<div class="content">
+				{{ entry.body|markdown }}
+			</div><!-- .content -->
+			{% if entry.tags %}
+			<div class="tags list">Tags:
+				<span>
+					{% tags_for_object entry as tag_list %}
+					{% for tag in tag_list %}
+					<a href="{% url chiplog_tagged_list tag.name %}">{{ tag }}</a>
+					{% endfor %}
+				</span>
+			</div><!-- .tags .list -->
+			{% endif %}
+		</div><!-- .entry -->
+	{% endfor %}
+</div><!-- #entries -->
+{% endblock %}
+
+{% block navigation %}
+<div id="nav">
+<div class="empty_nav"></div>
+</div><!-- #nav -->
+{% endblock %}

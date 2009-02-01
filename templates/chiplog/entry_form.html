@@ -1,30 +1,33 @@
-{% extends 'base.html' %}
+{% extends 'chiplog/base.html' %}
 {% load i18n %}
-
+ 
+{% block title %}{% if entry %}: Editing Entry from {{ entry.created|date:"l, F j, Y" }} at {{ entry.created|date:"g:i a" }}{% else %}: Creating Entry{% endif %}{% endblock %}
 {% block class %} class="lone_form"{% endblock %}
-
+ 
 {% block content %}
-	
-{% if object %}
-<h1>{% trans "Editing Entry from" %} <strong>{{ object.created|date:"l, F j, Y" }}</strong> {% trans "at" %} <strong>{{ object.created|date:"g:i a" }}</strong></h1>
+ 
+{% if entry %}
+<h1>{% trans "Editing Entry from" %} <strong>{{ entry.created|date:"l, F j, Y" }}</strong> {% trans "at" %} <strong>{{ entry.created|date:"g:i a" }}</strong></h1>
 {% endif %}
 <form action="." method="post">
-	<div>
-		{{ form.body.errors }}
-		{{ form.body }}
-	</div>
-	<div class="tags">
-		{{ form.tags.errors }}
-		{{ form.tags }}
-	</div>
-	<div class="button">
-		<a href="{% url chiplog_index %}">{% trans "Cancel" %}</a>
-	{% if object %}
-		<input type="submit" value="{% trans "ReLog It" %}">
-	{% else %}
-		<input type="submit" value="{% trans "Log It" %}">
-	{% endif %}
-	</div><!-- .button -->
+  <div>
+    <input type="hidden" name="referrer" value="{{ referrer }}" id="referrer">
+    {{ form.body.errors }}
+    {{ form.body }}
+  </div>
+  <div class="tags">
+    {{ form.tags.errors }}
+    {{ form.tags }}
+  </div>
+  <div class="button">
+  {% if entry %}
+    <a href="{{ entry.get_absolute_url }}">{% trans "Cancel" %}</a>
+    <input type="submit" value="{% trans "ReLog It" %}">
+  {% else %}
+    <a href="{% url chiplog_index %}">{% trans "Cancel" %}</a>
+    <input type="submit" value="{% trans "Log It" %}">
+  {% endif %}
+  </div><!-- .button -->
 </form>
-
+ 
 {% endblock %}
