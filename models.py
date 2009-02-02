@@ -9,10 +9,11 @@ class Entry(models.Model):
     """
     A Chiplog Entry
     """
-    body    = models.TextField(_('body'))
-    created = models.DateTimeField(_('created'), auto_now_add=True)
-    updated = models.DateTimeField( _('updated'), auto_now=True)
-    tags    = TagField()
+    body        = models.TextField(_('body'))
+    created     = models.DateTimeField(_('created'), auto_now_add=True)
+    updated     = models.DateTimeField( _('updated'), auto_now=True)
+    tags        = TagField()
+    location    = models.CharField(_('location'), blank=True, null=True, max_length=140)
     
     class Meta:
         verbose_name = _('entry')

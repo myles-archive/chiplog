@@ -19,6 +19,10 @@
     {{ form.tags.errors }}
     {{ form.tags }}
   </div>
+  <div class="location">
+	{{ form.location.errors }}
+	{{ form.location }}
+  </div>
   <div class="button">
   {% if entry %}
     <a href="{{ entry.get_absolute_url }}">{% trans "Cancel" %}</a>
