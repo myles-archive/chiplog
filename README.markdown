@@ -10,6 +10,7 @@ Requirements
 - [Django Markup](http://docs.djangoproject.com/en/dev/ref/contrib/#markup) (django.contrib.markup)
 - [Django Humanize](http://docs.djangoproject.com/en/dev/ref/contrib/humanize/) (django.contrib.humanize)
 - [Python Markdown](http://err.no/pymarkdown/pymarkdown.py)
+- [Typogrify](http://typogrify.googlecode.com/)
 
 ---
 
@@ -19,12 +20,20 @@ In `settings.py`, add to `INSTALLED_APPS`:
 
 	'chiplog',
 	'tagging',
+	'typogrify',
 	'django.contrib.markup',
 	'django.contrib.humanize',
 
 Also in `settings.py`, add the following setting:
 
 	CHIPLOG_MEDIA_URL = MEDIA_URL + 'chiplog/'
+
+And add at the context processor of chiplog:
+
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        'chiplog.context_processors.chiplog_media_url',
+        ...
+    )
 
 In `urls.py`:
 

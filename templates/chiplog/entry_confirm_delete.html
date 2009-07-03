@@ -1,19 +1,19 @@
 {% extends 'chiplog/base.html' %}
 {% load markup %}
 {% load i18n %}
- 
-{% block title %}: Deleting Entry from {{ entry.created|date:"l, F j, Y" }} at {{ entry.created|date:"g:i a" }}{% endblock %}
+
+{% block title %}: {% trans "Deleting Entry from" %} {{ entry.created|date:_("l, F j, Y") }} {% trans "at" %} {{ entry.created|date:_("g:i a") }}{% endblock %}
 {% block class %} class="entry_delete"{% endblock %}
- 
-{% block content %}  
- 
-<h1>{% trans "Deleting Entry from" %} <strong>{{ entry.created|date:"l, F j, Y" }}</strong> at <strong>{{ entry.created|date:"g:i a" }}</strong></h1>
+
+{% block content %}	
+
+<h1>{% trans "Deleting Entry from" %} <strong>{{ entry.created|date:_("l, F j, Y") }}</strong> {% trans "at" %} <strong>{{ entry.created|date:_("g:i a") }}</strong></h1>
 <form action="." method="post">
-  <div class="entry">{{ entry.body|markdown }}</div>
-  {% if entry.tags %}<div class="tags list">{% trans "Tags:" %} <span>{{ entry.tags }}</span></div>{% endif %}
-  <div class="button">
-    <a href="{{ entry.get_absolute_url }}">{% trans "Cancel" %}</a>
-    <input type="submit" value="{% trans "Delete Entry" %}">
-  </div><!-- .button -->
+	<div class="entry">{{ entry.body|markdown }}</div>
+	{% if entry.tags %}<div class="tags list">{% trans "Tags" %}: <span>{{ entry.tags }}</span></div>{% endif %}
+	<div class="button">
+		<a href="{{ entry.get_absolute_url }}">{% trans "Cancel" %}</a>
+		<input type="submit" value="{% trans "Delete Entry" %}">
+	</div><!-- .button -->
 </form>
 {% endblock %}

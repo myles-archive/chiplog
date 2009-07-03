@@ -3,7 +3,13 @@
 {% load humanize %}
 {% load i18n %}
 {% load tagging_tags %}
+<<<<<<< HEAD:templates/chiplog/entry_search.html
  
+=======
+{% load typogrify %}
+{% load autolink %}
+
+>>>>>>> 6768149feab9e1d6157be0621d89ae183d36d7c2:templates/chiplog/entry_search.html
 {% block title %}: {% trans "Search results for" %} &lsquo;{{ query }}&rsquo;{% endblock %}
 {% block class %} class="search"{% endblock %}
  
@@ -21,6 +27,7 @@
 <h1>{% trans "Search results for" %} &lsquo;{{ query }}&rsquo;</h1>
 {% if message %}<div id="message">{{ message }}</div>{% endif %}
 <div id="entries">
+<<<<<<< HEAD:templates/chiplog/entry_search.html
   {% for entry in entry_list %}
     {% ifchanged %}<h2>{{ entry.created|naturalday:"l, F j, Y"|title }}</h2>{% endifchanged %}
     <div class="entry">
@@ -47,6 +54,34 @@
       {% endif %}
     </div><!-- .entry -->
   {% endfor %}
+=======
+	{% for entry in entry_list %}
+		{% ifchanged %}<h2>{{ entry.created|naturalday:_("l, F j, Y")|title }}</h2>{% endifchanged %}
+		<div class="entry">
+			<div class="meta">
+				<span class="date">
+					<a href="{{ entry.get_absolute_url }}">
+						{{ entry.created|date:_("g:i a") }}
+					</a>
+					<span class="edit"> / <a href="{% url chiplog_update entry.id %}">{% trans "Edit" %}</a></span>
+				</span>
+			</div>
+			<div class="content">
+				{{ entry.body|markdown|typogrify|autolink }}
+			</div><!-- .content -->
+			{% if entry.tags %}
+			<div class="tags list">{% trans "Tags" %}:
+				<span>
+					{% tags_for_object entry as tag_list %}
+					{% for tag in tag_list %}
+					<a href="{% url chiplog_tagged_list tag.name %}">{{ tag }}</a>
+					{% endfor %}
+				</span>
+			</div><!-- .tags .list -->
+			{% endif %}
+		</div><!-- .entry -->
+	{% endfor %}
+>>>>>>> 6768149feab9e1d6157be0621d89ae183d36d7c2:templates/chiplog/entry_search.html
 </div><!-- #entries -->
 {% endblock %}
  

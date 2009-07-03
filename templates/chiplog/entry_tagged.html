@@ -3,6 +3,8 @@
 {% load humanize %}
 {% load i18n %}
 {% load tagging_tags %}
+{% load typogrify %}
+{% load autolink %}
 
 {% block title %}: {% trans "Entries tagged with" %} &lsquo;{{ tag }}&rsquo;{% endblock %}
 {% block class %} class="tagged"{% endblock %}
@@ -26,21 +28,21 @@
 {% if message %}<div id="message">{{ message }}</div>{% endif %}
 <div id="entries">
 	{% for entry in entry_list %}
-		{% ifchanged %}<h2>{{ entry.created|naturalday:"l, F j, Y"|title }}</h2>{% endifchanged %}
+		{% ifchanged %}<h2>{{ entry.created|naturalday:_("l, F j, Y")|title }}</h2>{% endifchanged %}
 		<div class="entry">
 			<div class="meta">
 				<span class="date">
 					<a href="{{ entry.get_absolute_url }}">
-						{{ entry.created|date:"g:i a" }}
+						{{ entry.created|date:_("g:i a") }}
 					</a>
 				</span>
-				<span class="edit"> / <a href="{% url chiplog_update entry.id %}">Edit</a></span>
+				<span class="edit"> / <a href="{% url chiplog_update entry.id %}">{% trans "Edit" %}</a></span>
 			</div>
 			<div class="content">
-				{{ entry.body|markdown }}
+				{{ entry.body|markdown|typogrify|autolink }}
 			</div><!-- .content -->
 			{% if entry.tags %}
-			<div class="tags list">Tags:
+			<div class="tags list">{% trans "Tags" %}:
 				<span>
 					{% tags_for_object entry as tag_list %}
 					{% for tag in tag_list %}

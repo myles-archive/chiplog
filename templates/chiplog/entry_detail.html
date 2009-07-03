@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 {% load markup %}
 {% load i18n %}
+<<<<<<< HEAD:templates/chiplog/entry_detail.html
 
+=======
+{% load tagging_tags %}
+{% load typogrify %}
+{% load autolink %}
+
+{% block title %}: {{ entry.created|date:_("l, F j, Y") }} {% trans "at" %} {{ entry.created|date:_("g:i a") }}{% endblock %}
+>>>>>>> 6768149feab9e1d6157be0621d89ae183d36d7c2:templates/chiplog/entry_detail.html
 {% block class %} class="entry_detail"{% endblock %}
 
 {% block content %}	
 
+<<<<<<< HEAD:templates/chiplog/entry_detail.html
 <h1><strong>{{ object.created|date:"l, F j, Y" }}</strong> at <strong>{{ object.created|date:"g:i a" }}</strong></h1>
 <div class="entry">{{ object.body|markdown }}</div>
 
@@ -14,3 +23,39 @@
 
 {% endblock %}
 
+=======
+<h1><strong>{{ entry.created|date:_("l, F j, Y") }}</strong> {% trans "at" %} <strong>{{ entry.created|date:_("g:i a") }}</strong></h1>
+
+{% include 'chiplog/message.html' %}
+
+<div class="entry">{{ entry.body|markdown|typogrify|autolink }}</div>
+
+<div id="edit">
+	<a title="{% trans 'Edit this entry' %}" href="{% url chiplog_update entry.id %}">{% trans 'Edit' %}</a> / 
+	<a title="{% trans 'Delete this entry' %}" href="{% url chiplog_delete entry.id %}">&otimes;</a>
+</div>
+{% if entry.tags %}
+<div class="tags list">
+	{% trans "Tags" %}:
+	<span>
+		{% tags_for_object entry as tag_list %}
+		{% for tag in tag_list %}
+		<a href="{% url chiplog_tagged_list tag.name %}">{{ tag }}</a>
+		{% endfor %}
+	</span>
+</div><!-- .tags .list -->
+{% endif %}
+
+{% endblock %}
+
+{% block navigation %}
+<div id="nav">
+	{% if entry.get_previous_by_created %}
+	<a class="older" title="{{ entry.get_previous_by_created.created|date:_("l, F j, Y") }} at {{ entry.get_previous_by_created.created|date:_("g:i a") }}" href="{{ entry.get_previous_by_created.get_absolute_url }}">{% trans 'Previous' %}</a>
+	{% endif %}
+	{% if entry.get_next_by_created %}
+	<a class="newer" title="{{ entry.get_next_by_created.created|date:_("l, F j, Y") }} at {{ entry.get_next_by_created.created|date:_("g:i a") }}" href="{{ entry.get_next_by_created.get_absolute_url }}">{% trans 'Next' %}</a>
+	{% endif %}
+</div><!-- #nav -->
+{% endblock %}
+>>>>>>> 6768149feab9e1d6157be0621d89ae183d36d7c2:templates/chiplog/entry_detail.html
